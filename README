@@ -1,21 +1,21 @@
 Purpose:
-	Minimise the time it takes for PDI (pre-delivery-inspection) & preparation.
-	This is NOT intended to replace the scripted or imaging build process.
-	This is NOT intended to replace on-site tasks such as GroupPolicy, WSUS etc.
-  I believe the end user's first experience should NOT involve:
-  	Having to tell the PC about your locale in 10 different dialogues.
-    Watching adverts for the manufacturer's greatness while .. 
-    Waiting for the PC to unpack itself before you can do anything.
-		Uninstall / delete lots of unwanted pre-installed rubbish.
-		Connecting an unpatched PC to the Internet.
-		Repeatedly re-running Windows Update until none are left.
-		Installing basic essential middleware and apps.
-		Disk cleanup, defrag, full malware scan.
-  This does all of the above so the PC is in a fit state before delivery.
-  It does so with as little human intervention as possible.
-  The PC technicial can therefore start it & then go and do other things.
-  Also ensures all PCs are configured exactly the same in large deployments 
+Minimise the time it takes for PDI (pre-delivery-inspection) & preparation.
+This is NOT intended to replace the scripted or imaging build process.
+This is NOT intended to replace on-site tasks such as GroupPolicy, WSUS etc.
+I believe the end user's first experience should NOT involve:
+Having to tell the PC about your locale in 10 different dialogues.
+  Watching adverts for the manufacturer's greatness while .. 
+  Waiting for the PC to unpack itself before you can do anything.
+  Uninstall / delete lots of unwanted pre-installed rubbish.
+  Connecting an unpatched PC to the Internet.
+  Repeatedly re-running Windows Update until none are left.
+  Installing basic essential middleware and apps.
+  Disk cleanup, defrag, full malware scan.
+This does all of the above so the PC is in a fit state before delivery.
+It does so with as little human intervention as possible.
+The PC technicial can therefore start it & then go and do other things.
+Also ensures all PCs are configured exactly the same in large deployments 
 
 Legal:
-	This is original work (c) 2013 by Phill Rogers.  License TBA.
+This is original work (c) 2013 by Phill Rogers.  License TBA.
 
