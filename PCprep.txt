@@ -1,0 +1,149 @@
+Purpose:
+	Minimise the time it takes for PDI (pre-delivery-inspection) & preparation.
+	This is NOT intended to replace the scripted or imaging build process.
+	This is NOT intended to replace client specific, on-site deployment tasks.
+
+Legal:
+	This is original work (c) 2013 by Phill Rogers.  License TBA.
+
+Credits:
+	Remove-UserProfile.ps1
+	http://communities.quest.com/community/uwm/blog/2012/09/21/10-tips-for-a-cleaning-up-a-hard-drive
+	PSTools - Microsoft SysInternals.
+	PSWindowsUpdate - Microsoft.
+	PSCX - PowerShell Community tools.
+
+Notes:
+	Cannot automate install of Microsoft Security Essentials before activation.
+	Microsoft's OS Service Packs don't seem to adhere to their RunOnce guide lines.
+
+SoFar:
+	2013-01-30	Phill Rogers - TechColab.co.je@gmail.com
+	Check if I have been 'RunAsAdministrator'
+	2013-01-31	Phill Rogers - TechColab.co.je@gmail.com
+	installers are .exe not .msi
+	Test 32-bit PC without dn
+	Test 32-bit PC with dot-net 1.1
+	Uses .Net Framework 2.0 SP2
+	Test 32-bit PC with dot-net 2.0 Sp2
+	Test 32-bit PC with dot-net 2.0 Sp2 and PS 2.0
+	Keep original names of installers as downloaded from Microsoft
+	2013-02-01	Phill Rogers - TechColab.co.je@gmail.com
+	set my own ENV so PowerShell is in the PATH if I've just installed it.
+	2013-02-02	Phill Rogers - TechColab.co.je@gmail.com
+	Force scripts to be in alpha-numeric order
+	2013-02-03	Phill Rogers - TechColab.co.je@gmail.com
+	replace ARCH BITS with x86 & x64
+	changed sub-scripts to use 3 digits for easy splitting & inserting.
+	2013-02-04	Phill Rogers - TechColab.co.je@gmail.com
+	moved installers to Resources folder
+	2013-02-05	Phill Rogers - TechColab.co.je@gmail.com
+	moved bounce function to separate script
+	get into a controlled reboot loop until complete
+	2013-02-06	Phill Rogers - TechColab.co.je@gmail.com
+	Major re-work to get reboot loop reliable.
+	runas /user:SomeLocalAdminAccount c:\Users\MyUser\StartupWhat.bat
+	Using Startup from Program Menu doesn't get authority.
+	RunOnce in registry works ok
+	Move oscli function to new PS1 which goes between CMD and all other PS1s.
+	Now uses a temporary admin account which is cleaned up after.
+	WU selection includes Service Pack
+	Tested OK on Windows 7 Professional Sp0
+	2013-02-07	Phill Rogers - TechColab.co.je@gmail.com
+	Install Sp3 for 32-bit XP from CMD (as it's a pre-req)
+	Moved temp account deletion into launcher with other functions.
+	Much tidying
+	Reboot loop & clean up all OK on XP
+	Reboot loop & clean up all OK on W7
+	Work out if I'm running from read-only media & set OUTDIR as best as poss.
+	add missing installer tolerance & ServicePack vs IE pre-req checks.
+	2013-02-08	Phill Rogers - TechColab.co.je@gmail.com
+	W7 sp1 and IE9 testing
+	Maybe all ServicePacks wipe the RunOnce contents!?
+	2013-02-09	Phill Rogers - TechColab.co.je@gmail.com
+	added Dev folder for tools such as renum.sh
+	moved machine log folders to under "Logs"
+	added 'online-add-MS-apps' as IE9 is bulky but needs online pre-reqs
+	ammended some of the text
+	separate ObeyFileCMD and ObeyFilePS1
+	rewrite su function again.
+	move all SPs to main CMD as SP install seems to break RunOnce
+	Work out if I'm running from read-only media & set OUTDIR to system wide C:\ temp.
+	Test autologon after logoff on W7 seems to need reboot but XP is ok. Always reboot for reliability.
+	2013-02-10	Phill Rogers - TechColab.co.je@gmail.com
+	rewrite CMD sequence for 'LocalService'
+	Remove auto logon when demoting to prevent freze on final boot.
+	Reduce auto login counter to 2.  Rename my 'su' to 'sudo' to avoid conflict with PSCX tools.
+	Can monitor otherwise silent SP install by using task manager.
+	Fully non-interactive sequence from start, through service pack, to loop test & clean exit.
+	2013-02-11am	Phill Rogers - TechColab.co.je@gmail.com
+	set my own ENV so PowerShell is in the PATH if it's not already there.
+	update loop test to use bounce function
+	2013-02-11pm	Phill Rogers - TechColab.co.je@gmail.com
+	Tidying & testing. Something broke.  Roll back and compare.
+	2013-02-12	Phill Rogers - TechColab.co.je@gmail.com
+	All re-boots in PS now return to PS.
+	All reboots with PsExec escalation.
+	If SP permits, then should be able to use PS alone, without CMD.
+	Add -i to PsExec lines.
+	Move create/jump account to before service pack check.
+	Strip trailing dir-sep from OBEYDIR
+	Fix broken loop at USERNAME test in PS1
+	Found another possible value for USERNAME during LocalService
+	Added neater DEBUG code to both PS1 and CMD, with renumberis tool.
+	2013-02-13am	Phill Rogers - TechColab.co.je@gmail.com
+	looper OK in XP & W7, SP OK in XP & W7, ready for full run through test.
+	2013-02-13pm	Phill Rogers - TechColab.co.je@gmail.com
+	W7 OK, XP need to convert temp CMD from UNICODE to ASCII
+	Tidied harmless warning when skipping non-essential service packs.
+	In PS get arch from env as PS doesn't seem to know during LocalService
+	2013-02-27	Phill Rogers - TechColab.co.je@gmail.com
+	added IE10 where possible
+	2013-02-28	Phill Rogers - TechColab.co.je@gmail.com
+	improved VBox test environment for faster turn around and less space.
+	started workaround for minimal interraction install of Office.
+	2013-03-03	Phill Rogers - TechColab.co.je@gmail.com
+	specify AutoLogonCount to be DWOWRD
+	force all LANs to be Private(Work) before WMI enabling
+	created A:\PRprep.cmd to find drive containgin PCprep suite
+	created tools for blanking a VDI, creating PCbuild.img and PCprep.iso
+
+ToDo:
+  Write an init tool to fetch the MS bits which are not redistributable.
+	Time stamp as early as possible - where to write??
+	In ps1 chek if acct already exists before trying to create it.
+	test OUTDIR in W7 & re-test on XP
+	test W7 install of sp1 and IE9 - a bit rough, but works.
+	Time both XP & W7 from start to finish (using a proxy)
+	Declare readyness for use - prime objective only.
+
+	how necessary is PcExec to each launch? - Fix $arg1 Cleanup
+	create separate 'any key to continue' function?
+	REG - machine bits, default user bits
+	use REG files to configure the strongest 'disk clean up' options
+	Set COMPUTERNAME etc.
+	e-mail logs, upload to TC web site, download PDF Invoice with PO#
+	prompt to save logs to separate media if running from read-only
+	Separate Microsoft app installers from 3rd party?
+	Switch to MicrosoftUpdate to include pre-installed Office?
+	http://support.microsoft.com/kb/934307	MSU file install using wusa.exe ?
+	test 64 bit XP, Vista etc.
+	error checking after installers?
+	Test if DHCP is working & online OK before reconfig of NIC
+	maintenance scripts:
+		updating of 'unwanted-apps.csv' from feedback on real machines.
+		renumber TaskScripts
+		clean up in case of aborted testing
+
+Initial thoughts on monetizing / pricing:
+	1) per hour at minimum wage (faster hardware & internet help) =~ £20
+	2) fixed rate of £20 per use.
+	3) perpetual unlimited license £3k
+	4) 8GB write-protectabe USB flash drive, Useable restore DVD-DL, PDF docs.
+
+Method:
+	Cumulative - you can re-run it at any point to continue.
+	Self managing - whatever it needs, it does for itself.
+	Clean - Leaves the PC without any remnants of it's precense, except activity logs.
+	TaskScripts: Standard, DIY, commision, community
+
